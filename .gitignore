@@ -34,8 +34,8 @@ Thumbs.db
 desktop.ini
 
 # -----------------------------------------------------------------------------
-# 可选：若不想把导表生成物提交到 git，取消下面注释
+# 导表生成物（TargetFonder）
 # -----------------------------------------------------------------------------
-# TargetFonder/Metas/*.cs
-# TargetFonder/Codes/*.bytes
-# !TargetFonder/**/.gitkeep
+TargetFonder/Metas/*.cs
+TargetFonder/Codes/*.bytes
+!TargetFonder/**/.gitkeep
