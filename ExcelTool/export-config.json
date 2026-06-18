@@ -1,0 +1,9 @@
+{
+  "excelRoot": "../TestExcels",
+  "codeOutput": "../TargetFonder/Metas",
+  "dataOutput": "../TargetFonder/Codes",
+  "namespace": "Game.Config",
+  "tableDiscovery": "scanAll",
+  "excludeTables": ["_Template"],
+  "includeTables": null
+}
