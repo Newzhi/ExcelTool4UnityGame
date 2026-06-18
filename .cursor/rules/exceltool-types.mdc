@@ -1,0 +1,59 @@
+---
+description: ExcelTool 支持的策划表类型与扩展约定
+globs: ExcelTool/ExcelTool/**/*
+alwaysApply: false
+---
+
+# ExcelTool 类型规则
+
+## 范围约束
+
+- 仅维护导表 CLI（`ExcelTool/ExcelTool/`），不实现 Unity 运行时加载。
+- 不做二进制格式版本号升级，除非用户明确要求。
+- 新增类型必须用户提出后再加；不要自行扩展 `enum`、ref、map、enum 生成等未要求能力。
+
+## 支持的 ##type（当前）
+
+**标量：** `int` `uint` `long` `float` `double` `bool` `string`
+
+**数组：** `int[]` `uint[]` `long[]` `float[]` `string[]` `bool[]`
+
+- 数组单元格用 `|` 分隔，如 `1|2|3`
+- 空单元格表示空数组
+- `bool` / `bool[]` 支持 `true` `false` `1` `0`
+
+## 新增类型时必须同步修改的文件
+
+1. `Models/FieldType.cs`
+2. `Excel/SchemaParser.cs` → `ParseFieldType`
+3. `Validate/TypeConverter.cs` → `TryParse`
+4. `CodeGen/MetaCodeGenerator.cs` → `ToCSharpType`
+5. `Export/BinaryTypeCodec.cs` → `WriteValue` + `ToTypeId`
+
+不要只改一处。`BinaryExporter` 主流程无需改，除非用户要求调整文件头布局。
+
+## 二进制类型 ID（固定，勿改已有 ID）
+
+| ID | 类型 |
+|---|---|
+| 1 | uint |
+| 2 | string |
+| 3 | float |
+| 4 | int |
+| 5 | long |
+| 6 | double |
+| 7 | bool |
+| 11 | int[] |
+| 12 | uint[] |
+| 13 | float[] |
+| 14 | string[] |
+| 15 | long[] |
+| 16 | bool[] |
+
+数组编码：`int32 count` + 各元素按标量规则写入。string 为 `int32 len + utf8`。
+
+## 表格式（不变）
+
+- A 列：`##var` `##type` `##Alias` `##desc`
+- B 列起：字段内容
+- 文件名即表名 → `{Name}Meta.cs` + `{Name}.bytes`

@@ -126,9 +126,19 @@ public static class SchemaParser
     {
         return typeText.Trim().ToLowerInvariant() switch
         {
+            "int" => FieldType.Int,
             "uint" => FieldType.UInt,
-            "string" => FieldType.String,
+            "long" => FieldType.Long,
             "float" => FieldType.Float,
+            "double" => FieldType.Double,
+            "bool" => FieldType.Bool,
+            "string" => FieldType.String,
+            "int[]" => FieldType.IntArray,
+            "uint[]" => FieldType.UIntArray,
+            "float[]" => FieldType.FloatArray,
+            "string[]" => FieldType.StringArray,
+            "long[]" => FieldType.LongArray,
+            "bool[]" => FieldType.BoolArray,
             _ => throw new InvalidOperationException(
                 $"表 [{tableName}] 字段 [{fieldName}] 使用了不支持的类型: {typeText}"),
         };

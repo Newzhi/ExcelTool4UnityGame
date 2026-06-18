@@ -53,9 +53,19 @@ public static class MetaCodeGenerator
     private static string ToCSharpType(FieldType type) =>
         type switch
         {
+            FieldType.Int => "int",
             FieldType.UInt => "uint",
-            FieldType.String => "string",
+            FieldType.Long => "long",
             FieldType.Float => "float",
+            FieldType.Double => "double",
+            FieldType.Bool => "bool",
+            FieldType.String => "string",
+            FieldType.IntArray => "int[]",
+            FieldType.UIntArray => "uint[]",
+            FieldType.LongArray => "long[]",
+            FieldType.FloatArray => "float[]",
+            FieldType.StringArray => "string[]",
+            FieldType.BoolArray => "bool[]",
             _ => "object",
         };
 
